@@ -5,11 +5,18 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Ratings from "./pages/Ratings";
 import ChatAI from "./pages/ChatAI";
+import AdminPanel from "./pages/AdminPanel";
+import Settings from "./pages/Settings";
+import Payment from "./pages/Payment";
+import Tools from "./pages/Tools";
+import Downloader from "./pages/tools/Downloader";
+import QRGenerator from "./pages/tools/QRGenerator";
+import SourceViewer from "./pages/tools/SourceViewer";
+import ImageTools from "./pages/tools/ImageTools";
 import NotFound from "./pages/NotFound";
 import LoadingScreen from "./components/LoadingScreen";
 import NotificationBar from "./components/NotificationBar";
@@ -25,14 +32,8 @@ const App = () => {
   const audioRef = useRef<AudioPlayerRef>(null);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-
+    supabase.auth.getSession().then(({ data: { session } }) => setSession(session));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => setSession(session));
     return () => subscription.unsubscribe();
   }, []);
 
@@ -42,9 +43,7 @@ const App = () => {
     audioRef.current?.play();
   };
 
-  if (showLoading) {
-    return <LoadingScreen onComplete={handleLoadingComplete} />;
-  }
+  if (showLoading) return <LoadingScreen onComplete={handleLoadingComplete} />;
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -61,6 +60,14 @@ const App = () => {
             <Route path="/dashboard" element={session ? <Dashboard /> : <Navigate to="/login" replace />} />
             <Route path="/ratings" element={session ? <Ratings /> : <Navigate to="/login" replace />} />
             <Route path="/chat" element={session ? <ChatAI /> : <Navigate to="/login" replace />} />
+            <Route path="/admin" element={session ? <AdminPanel /> : <Navigate to="/login" replace />} />
+            <Route path="/settings" element={session ? <Settings /> : <Navigate to="/login" replace />} />
+            <Route path="/payment" element={session ? <Payment /> : <Navigate to="/login" replace />} />
+            <Route path="/tools" element={session ? <Tools /> : <Navigate to="/login" replace />} />
+            <Route path="/tools/downloader" element={session ? <Downloader /> : <Navigate to="/login" replace />} />
+            <Route path="/tools/qr" element={session ? <QRGenerator /> : <Navigate to="/login" replace />} />
+            <Route path="/tools/source" element={session ? <SourceViewer /> : <Navigate to="/login" replace />} />
+            <Route path="/tools/image" element={session ? <ImageTools /> : <Navigate to="/login" replace />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

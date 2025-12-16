@@ -14,12 +14,38 @@ export type Database = {
   }
   public: {
     Tables: {
+      broadcast_notifications: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean | null
+          message: string
+          sender_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          message: string
+          sender_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          message?: string
+          sender_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
           created_at: string
           id: string
           is_admin: boolean
+          is_online: boolean | null
+          last_active: string | null
           phone: string | null
           role: Database["public"]["Enums"]["user_role"]
           updated_at: string
@@ -31,6 +57,8 @@ export type Database = {
           created_at?: string
           id?: string
           is_admin?: boolean
+          is_online?: boolean | null
+          last_active?: string | null
           phone?: string | null
           role?: Database["public"]["Enums"]["user_role"]
           updated_at?: string
@@ -42,6 +70,8 @@ export type Database = {
           created_at?: string
           id?: string
           is_admin?: boolean
+          is_online?: boolean | null
+          last_active?: string | null
           phone?: string | null
           role?: Database["public"]["Enums"]["user_role"]
           updated_at?: string
@@ -71,6 +101,45 @@ export type Database = {
           message?: string
           name?: string
           stars?: number
+        }
+        Relationships: []
+      }
+      transactions: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          package_type: string
+          payment_method: string
+          proof_url: string | null
+          status: string
+          telegram_notified: boolean | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          package_type: string
+          payment_method: string
+          proof_url?: string | null
+          status?: string
+          telegram_notified?: boolean | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          package_type?: string
+          payment_method?: string
+          proof_url?: string | null
+          status?: string
+          telegram_notified?: boolean | null
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
