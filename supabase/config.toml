@@ -1,1 +1,10 @@
 project_id = "qhaybxvwnhlnnzrhsqox"
+
+[functions.send-telegram]
+verify_jwt = false
+
+[functions.video-downloader]
+verify_jwt = false
+
+[functions.fetch-source]
+verify_jwt = false
